@@ -6,4 +6,5 @@ file = open(filename+'.txt', 'r')
 read_file = file.readlines()
 
 nfa = NFA(read_file)
-
+dfa = DFA()
+dfa.convert_to_dfa(nfa)
