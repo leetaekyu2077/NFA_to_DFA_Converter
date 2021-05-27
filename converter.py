@@ -16,11 +16,14 @@ class NFA:
         state = ""
         symbol = ""
         result = {}
+        each_function = ()
         for i in range(4, len(file)):
             function_line = file[i].rstrip("\n").split(" ")
             state = function_line.pop(0)
             symbol = function_line.pop(0)
             result = set(function_line)
+            each_function = (state, symbol, result)
+            self.mapping_function.append(each_function)
 
 
 
