@@ -1,33 +1,3 @@
-import queue
-
-class NFA:
-    def __init__(self, file):
-        self.states = set()
-        self.input_symbols = []
-        self.start_state = ''
-        self.final_states = set()
-        self.mapping_function = []
-
-        self.states = set(file[0].rstrip("\n").split(" "))  # 상태 집합 구성
-        self.input_symbols = file[1].rstrip("\n").split(" ")  # 입력 심볼 집합 구성
-        self.start_state = file[2].rstrip("\n")  # 시작 상태
-        self.final_states = set(file[3].rstrip("\n").split(" "))  # 종료 상태 집합 구성
-
-        # 상태 전이 함수 구성
-        function_line = ""
-        state = ""
-        symbol = ""
-        result = {}
-        each_function = ()
-        for i in range(4, len(file)):
-            function_line = file[i].rstrip("\n").split(" ")
-            state = function_line.pop(0)
-            symbol = function_line.pop(0)
-            result = set(function_line)
-            each_function = (state, symbol, result)
-            self.mapping_function.append(each_function)
-
-
 class DFA:
     def __init__(self):
         self.states = set()
@@ -48,7 +18,7 @@ class DFA:
         while len(self.q) > 0:
             current = self.q.pop(0)  # 현재 보고 있는 상태 (상태 리스트)
             for i in self.input_symbols:  # 현재 보고 있는 상태를 시작상태로 하는 상태 전이 함수를 새로 정의하여 dfa의 상태전이함수 집합에 추가
-                new_mapping_function = (self.get_new_mapping(nfa, current, i))
+                new_mapping_function = (self.make_new_mapping(nfa, current, i))
                 if len(new_mapping_function[2]) > 0:  # 새로 정의된 상태 전이 함수에서 결과 상태가 공집합이 아닐 때만 추가
                     self.mapping_function.append(new_mapping_function)
                 new_state = ''.join(list(new_mapping_function[2]))
@@ -65,7 +35,7 @@ class DFA:
         for i in self.mapping_function:
             print(i)
 
-    def get_new_mapping(self, nfa, current, input_symbol):
+    def make_new_mapping(self, nfa, current, input_symbol):
         new_result_state = set()
         for i in range(len(current)):
             for element in nfa.mapping_function:
@@ -74,8 +44,3 @@ class DFA:
 
         new_mapping_function = (current, input_symbol, new_result_state)
         return new_mapping_function
-
-
-
-
-

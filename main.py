@@ -1,5 +1,5 @@
-import sys
-from converter import *
+from nfa import NFA
+from dfa import DFA
 
 filename = input('NFA 파일 이름 입력 : ')
 file = open(filename+'.txt', 'r')
