@@ -29,6 +29,7 @@ class DFA:
                     if len(set(list(new_mapping_function[2])) & nfa.final_states) > 0:
                         self.final_states.append(new_state)
 
+        # 최소화 하기 전 DFA 출력 코드 입니다.
         # print("\n<<DFA>>")
         # print("상태 집합 : ", self.states)
         # print("입력 심볼 : ", self.input_symbols)
