@@ -5,11 +5,11 @@ class DFA:
         self.start_state = ''
         self.final_states = []
         self.mapping_function = []
-        self.q = []
+        self.q = []  # 새로 나오는 accessible state 를 담아놓을 큐
 
     def convert_to_dfa(self, nfa):
-        self.input_symbols = nfa.input_symbols
-        self.start_state = nfa.start_state
+        self.input_symbols = nfa.input_symbols  # 입력 심볼 그대로
+        self.start_state = nfa.start_state  # 시작 상태 그대로
 
         # accessible state만 가지고 states, mapping function, final states 재정의
         self.q.append(nfa.mapping_function[0][0]) # 가장 처음에 시작상태를 큐에 넣음
@@ -24,12 +24,12 @@ class DFA:
                     self.mapping_function.append(new_mapping_function)
                 new_state = ''.join(list(new_mapping_function[2]))
                 if (new_state in set(self.states)) is False:  # 한번도 등장하지 않은 새로운 상태일 때
-                    self.states.append(new_state)  # 상태 집합에는 하나로 합친 스트링 형태로 추가
-                    self.q.append(sorted(list(new_mapping_function[2])))  # 큐에는 각 상태가 나열된 리스트 형태로 추가
+                    self.states.append(new_state)  # 상태 집합에는 하나로 합친 스트링을 추가
+                    self.q.append(sorted(list(new_mapping_function[2])))  # 큐에는 각 상태들이 정렬된 하나의 리스트를 추가
                     if len(set(list(new_mapping_function[2])) & nfa.final_states) > 0:
                         self.final_states.append(new_state)
 
-        # print("<<DFA>>")
+        # print("\n<<DFA>>")
         # print("상태 집합 : ", self.states)
         # print("입력 심볼 : ", self.input_symbols)
         # print("시작 상태 : ", self.start_state)
@@ -65,6 +65,7 @@ class DFA:
                     for k in range(len(groups[j])):  # 그 그룹의 각 상태에 대하여
                         # 해당 상태가 input_symbol을 보고 가는 결과 상태가 어떤 그룹에 속하는가
                         group_index = self.find_which_group(groups[j][k], self.input_symbols[i], groups)
+                        # new_mapping_function -> [0] = 입력 심볼, [1] = 상태 그룹, [2] = 그룹 내 상태 인덱스, [3] = 결과 상태 그룹 인덱스
                         new_mapping_function = (i, j, k, group_index)
                         groups_mapping_function.append(new_mapping_function)
             temp = self.partition(groups_mapping_function, groups)
@@ -139,6 +140,7 @@ class DFA:
                 return new_groups
 
     def print(self):
+        print("\n<<Reduced DFA>>")
         print("상태 집합 : ", self.states)
         print("입력 심볼 : ", self.input_symbols)
         print("시작 상태 : ", self.start_state)

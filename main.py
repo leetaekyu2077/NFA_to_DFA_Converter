@@ -11,5 +11,4 @@ dfa = DFA()
 dfa.convert_to_dfa(nfa)
 dfa.minimization()
 
-print("<<Reduced DFA>>")
 dfa.print()
